@@ -11,7 +11,7 @@
 #include <string>
 #include <unordered_map>
 #include "model.h"
-
+#include <vector>
 using namespace std;
 
 class map_model : public markov_model {
@@ -23,7 +23,7 @@ public:
     string to_string();
 
 protected:
-    unordered_map<char,vector<char>> _model = {};
+    unordered_map<string,vector<char>> _model = {};
     // Add any variables you may need here
 };
 
