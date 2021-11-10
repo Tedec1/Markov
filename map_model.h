@@ -9,20 +9,21 @@
 #define _MAP_MODEL_H
 
 #include <string>
-
+#include <unordered_map>
 #include "model.h"
 
 using namespace std;
 
 class map_model : public markov_model {
 public:
-    virtual void initialize(string text, int order);
+    void initialize(string text, int order) override;
 
-    virtual string generate(int size);
+    string generate(int size) override;
 
     string to_string();
 
 protected:
+    unordered_map<char,vector<char>> _model = {};
     // Add any variables you may need here
 };
 
