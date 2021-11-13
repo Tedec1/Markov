@@ -9,70 +9,60 @@
 #include <sstream>
 #include "word_model.h"
 
-string word_model::_remove_first_word(string &s) {
-    int i = 0;
-    while(i < s.length()){
-        if(s[i] == ' '){
-            break;
-        }
-        i++;
-    }
-    string a = s.substr(0,i);
-    s = s.substr(i);
-    if(s[0] == ' ' && s.length() != 1){
-        s = s.substr(1);
-    }
-    return a;
-}
 
-string word_model::_find_kth_words(string &s, int order, int starting_i){
+string word_model::make_key(const vector<string>& list, int order, int start){
+    string res{};
     int count = 0;
-    int i = starting_i;
-    if(starting_i > s.length()){
-        throw exception();
-    }
-    while(count != order && i < s.length()){
-        if ( s[i] == ' ' ) {
-            count++;
+    int i = start;
+    while (count < order){
+        if(i > list.size()){
+            i = 0;
         }
-        if(count == order){
-            break;
-        }
+        res += " " + list[i];
         i++;
+        count++;
     }
-    return s.substr(0,i);
+    return res.substr(1);
 }
 
 void word_model::initialize(string text, int order) {
-    stringstream ss;
-    bool first_kth_words = true;
-    string cur_key{};
+    stringstream ss(text);
     string s;
-    while(!text.empty()){
-        string words_to_add{};
-        words_to_add += _remove_first_word(text) + ' ';
-        words_to_add += _find_kth_words(text,order - 1,0);
-        if(first_kth_words){
-            cur_key = words_to_add;
-            text += " " + words_to_add;
-            first_kth_words = false;
-            continue;
-        }
-        if(_model.count(cur_key)){
-            _model[cur_key].push_back(s);
+    vector<string> list;
+    while(ss >> s){
+        list.push_back(s);
+    }
+    for (int i = 0; i < order; ++i) {
+        list.push_back(list[i]);
+    }
+    for (int i = 0; i + order < list.size(); ++i) {
+        string key = make_key(list, order, i);
+        if(_model.count(key)){
+            _model[key].push_back(list[i + order]);
         } else {
-            _keys.push_back(cur_key);
-            _model[cur_key] = {s};
+            _model[key] = {list[i + order]};
+            _keys.push_back(key);
         }
-        cur_key = s;
     }
-    for (string key:_keys) {
-         cout << key<< ": ";
-        for (string s: _model[key]) {
-            cout << s + ", ";
-        }
-        cout << '\n';
+//    for (const string& k:_keys) { for printing the model for testing
+//        cout << k << ": ";
+//        for (const string& v:_model[k]) {
+//            cout << v << ", ";
+//        }
+//        cout << '\n';
+//    }
+}
+
+void word_model::_remove_first_word(string &seed){
+    int i = 0;
+    while (seed[i] != ' ' && i != seed.length()){
+        i++;
     }
+    if(i == seed.length()){
+        seed.clear();
+        return;
+    }
+    seed = seed.substr(i + 1) + " ";
 }
 
 string word_model::generate(int size) {

@@ -24,9 +24,10 @@ public:
 protected:
     unordered_map<string,vector<string>> _model = {};
     vector<string> _keys;
-    static string _remove_first_word(string &s);
 
-    string _find_kth_words(string &s, int order,int startingi);
+    string make_key(const vector<string>& list, int order, int start);
+
+    void _remove_first_word(string &seed);
 };
 
 #endif
