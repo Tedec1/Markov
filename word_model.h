@@ -19,13 +19,12 @@ public:
 
     string generate(int size) override;
 
-    // Add any helper methods you want here
 
 protected:
     unordered_map<string,vector<string>> _model = {};
     vector<string> _keys;
 
-    string make_key(const vector<string>& list, int order, int start);
+    string _make_key(const vector<string>& list, int order, int start);
 
     void _remove_first_word(string &seed);
 };

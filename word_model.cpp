@@ -10,7 +10,7 @@
 #include "word_model.h"
 
 
-string word_model::make_key(const vector<string>& list, int order, int start){
+string word_model::_make_key(const vector<string>& list, int order, int start){
     string res{};
     int count = 0;
     int i = start;
@@ -36,21 +36,14 @@ void word_model::initialize(string text, int order) {
         list.push_back(list[i]);
     }
     for (int i = 0; i + order < list.size(); ++i) {
-        string key = make_key(list, order, i);
+        string key = _make_key(list,order,i);
         if(_model.count(key)){
-            _model[key].push_back(list[i + order]);
+            _model.at(key).push_back(list[i + order]);
         } else {
             _model[key] = {list[i + order]};
             _keys.push_back(key);
         }
     }
-//    for (const string& k:_keys) { for printing the model for testing
-//        cout << k << ": ";
-//        for (const string& v:_model[k]) {
-//            cout << v << ", ";
-//        }
-//        cout << '\n';
-//    }
 }
 
 void word_model::_remove_first_word(string &seed){
