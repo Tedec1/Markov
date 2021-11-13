@@ -200,7 +200,7 @@ void markov::set_random_seed() {
 void markov::init_random() {
 	if (_random_seed == -1) {
 		// get a different random sequence every time
-		time_t t = time(NULL);
+		time_t t = time(nullptr);
 		srand(t);
 	} else {
 		srand(_random_seed);
@@ -275,7 +275,7 @@ bool markov::_set_model(string model_type) {
 		_model = _model_map[model_type];
 		cout << "Model changed to " + model_type + " model." << endl;
 		return true;
-	} else if (_model != NULL) {
+	} else if (_model != nullptr) {
 		cout << "Unrecognized model type.  Model unchanged, still ";
 		cout << model_type + " model." << endl;
 		return false;

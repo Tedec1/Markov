@@ -24,6 +24,7 @@ public:
 
 protected:
     unordered_map<string,vector<char>> _model = {};
+    vector<string> _keys;
     // Add any variables you may need here
 };
 

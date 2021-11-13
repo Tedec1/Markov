@@ -42,7 +42,7 @@ private:
 	std::string   _text         = "";
     int           _order        = -1;
     std::string   _model_type   = "";
-	markov_model* _model        = NULL;
+	markov_model* _model        = nullptr;
 	int           _random_seed  = -1;
 	bool          _initialized  = false;
 	clock_t       _start_time;

@@ -8,20 +8,25 @@
 #ifndef _WORD_MODEL_H
 #define _WORD_MODEL_H
 
+#include <unordered_map>
 #include "model.h"
-
+#include <vector>
 using namespace std;
 
 class word_model : public markov_model {
 public:
-    virtual void initialize(string text, int order);
+    void initialize(string text, int order) override;
 
-    virtual string generate(int size);
+    string generate(int size) override;
 
     // Add any helper methods you want here
 
 protected:
-    // Add any variables you may need here
+    unordered_map<string,vector<string>> _model = {};
+    vector<string> _keys;
+    static string _remove_first_word(string &s);
+
+    string _find_kth_words(string &s, int order,int startingi);
 };
 
 #endif
